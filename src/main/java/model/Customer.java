@@ -32,8 +32,11 @@ public class Customer {
     private List<Cards> cards;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
+    @OneToOne(mappedBy = "wishlist", cascade = CascadeType.ALL, orphanRemoval = true)
     private Wishlist wishlist;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
     @Override

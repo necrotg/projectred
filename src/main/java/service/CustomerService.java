@@ -15,7 +15,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CustomerService {
 
-    @Autowired
     private final CustomerRepository customerRepository;
 
     public Customer createCustomer(Customer customer){

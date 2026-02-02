@@ -16,11 +16,17 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
     @Column(nullable = false)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Product> products;
-    @Column(nullable = false)
+    @JoinColumn(nullable = false,name = "shipping_address_id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Address shippingAddress;
-    @Column(nullable = false)
+    @JoinColumn(nullable = false,name = "billing_address_id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Address billingAddress;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false,name = "customer_id")
+    private Customer customer;
     @Column(nullable = false)
     private String dimension;
     @Column(nullable = false)

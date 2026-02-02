@@ -29,6 +29,5 @@ public class Product {
     private Float basePrice;
     @Column(nullable = false)
     private Float actualPrice;
-    private List<Review> reviews;
     private int version;
 }
