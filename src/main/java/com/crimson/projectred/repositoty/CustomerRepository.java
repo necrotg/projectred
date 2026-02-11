@@ -1,6 +1,6 @@
-package repositoty;
+package com.crimson.projectred.repositoty;
 
-import model.Customer;
+import com.crimson.projectred.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CustomerRepository extends JpaRepository<Customer,Long> {

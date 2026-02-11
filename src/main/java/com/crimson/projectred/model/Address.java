@@ -1,27 +1,27 @@
-package model;
+package com.crimson.projectred.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tbaddresses")
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Address {
+@Data
+public class Address extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_seq")
+    @SequenceGenerator(name = "address_seq", sequenceName = "address_SEQ", allocationSize = 1)
+    private Long addressId;
 
     @Column(nullable = false)
     private String street;
 
     @Column(nullable = false)
-    private String number;
+    private String residenceNumber;
 
     private String complement;
 
@@ -38,8 +38,9 @@ public class Address {
     private String zipCode;
 
     @ManyToOne(fetch = FetchType.LAZY) // Lazy evita carregar o cliente sem necessidade
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     @ToString.Exclude
+    @JsonIgnore
     private Customer customer;
 
     @Override
@@ -47,7 +48,7 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return id != null && id.equals(address.id);
+        return addressId != null && addressId.equals(address.addressId);
     }
 
     @Override

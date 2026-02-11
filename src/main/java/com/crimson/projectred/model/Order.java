@@ -1,4 +1,4 @@
-package model;
+package com.crimson.projectred.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,15 +9,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class Order {
+@Table(name = "tborder")
+public class Order extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
+    @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
     private Long orderId;
-    @Column(nullable = false)
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Product> products;
     @JoinColumn(nullable = false,name = "shipping_address_id")
     @OneToOne(cascade = CascadeType.ALL)
     private Address shippingAddress;
@@ -25,10 +22,10 @@ public class Order {
     @OneToOne(cascade = CascadeType.ALL)
     private Address billingAddress;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false,name = "customer_id")
+    @JoinColumn(nullable = false,name = "customerId")
     private Customer customer;
-    @Column(nullable = false)
-    private String dimension;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "order")
+    private List<OrderItem> orderItems;
     @Column(nullable = false)
     private Float baseTotalPrice;
     @Column(nullable = false)

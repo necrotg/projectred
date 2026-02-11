@@ -1,4 +1,4 @@
-package model;
+package com.crimson.projectred.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,12 +9,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class Product {
+@Table(name = "tbproducts")
+public class Product extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
+    private Long productId;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
@@ -24,6 +24,7 @@ public class Product {
     private String dimension;
     @Column(nullable = false)
     private String pathImages;
+    @OneToMany(mappedBy = "product")
     private List<Review> reviews;
     @Column(nullable = false)
     private Float basePrice;

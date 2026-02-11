@@ -1,4 +1,4 @@
-package exception.cust;
+package com.crimson.projectred.exception.cust;
 
 public class BusinessException extends RuntimeException{
     BusinessException() {

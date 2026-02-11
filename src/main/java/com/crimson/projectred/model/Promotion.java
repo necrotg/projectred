@@ -1,4 +1,4 @@
-package model;
+package com.crimson.projectred.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,9 +7,8 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class Promotion {
+@Table(name = "tbpromotion")
+public class Promotion extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long promotionId;

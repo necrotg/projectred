@@ -1,10 +1,5 @@
-package model;
+package com.crimson.projectred.model;
 
-import jakarta.persistence.Entity;
-import lombok.Data;
-
-@Entity
-@Data
 public class User {
     private Long id;
     private Customer customer;
