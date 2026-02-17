@@ -23,12 +23,12 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody Address address,@PathVariable Long customerId){
-        Address savedAddress = addressService.createAddress(address,customerId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedAddress);
+        addressService.addAddress(address,customerId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(address);
     }
     @GetMapping
-    public ResponseEntity<Optional<Address>> getAddressesByCustomerId(@PathVariable Long id){
-        Optional<Address> addresses = addressService.getAddressesByCustomerId(id);
+    public ResponseEntity<Optional<Address>> getAddressesByCustomerId(@PathVariable Long customerId){
+        Optional<Address> addresses = addressService.getAddressesByCustomerId(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(addresses);
     }
 }

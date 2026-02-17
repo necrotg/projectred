@@ -15,6 +15,7 @@ import com.crimson.projectred.repositoty.CustomerRepository;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -24,14 +25,18 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public Customer createCustomer(Customer customer){
-        if(Objects.nonNull(customerRepository.findByEmailIgnoreCase(customer.getEmail()))){
+        if(customerRepository.findByEmailIgnoreCase(customer.getEmail()).isPresent()){
             throw new BusinessException(ExceptionMessage.EMAIL_EXISTS_MESSAGE);
         }
         return customerRepository.save(customer);
     }
     public Customer getCustomerByEmail(String customer){
-
-        return customerRepository.findByEmailIgnoreCase(customer);
+        return customerRepository.findByEmailIgnoreCase(customer)
+                .orElseThrow(()-> new BusinessException(ExceptionMessage.CUSTOMER_NOT_FOUND));
+    }
+    public Customer getCustomerById(Long customerId){
+        return customerRepository.findById(customerId)
+                .orElseThrow(()->new BusinessException(ExceptionMessage.CUSTOMER_ID_NOT_VALID));
     }
     public ResponseEntity<StandardResponse> deleteCustomerById(Long id){
         if(!customerRepository.existsById(id)){

@@ -29,7 +29,7 @@ public class Customer extends BaseEntity{
     @Column(nullable = false)
     private String userName;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Card> cards;
+    private List<Card> cards = new ArrayList<>();
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -37,9 +37,9 @@ public class Customer extends BaseEntity{
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Wishlist wishlist;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
     @Override
     public final boolean equals(Object o) {

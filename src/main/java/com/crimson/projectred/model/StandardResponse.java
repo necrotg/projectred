@@ -5,12 +5,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
+@AllArgsConstructor
 public class StandardResponse {
     private Long timestamp;
     private int status;
     private String message;
+
+    public StandardResponse(int status, String message) {
+        this.timestamp = System.currentTimeMillis();
+        this.status = status;
+        this.message = message;
+    }
 }

@@ -3,6 +3,8 @@ package com.crimson.projectred.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,10 +27,10 @@ public class Product extends BaseEntity{
     @Column(nullable = false)
     private String pathImages;
     @OneToMany(mappedBy = "product")
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
     @Column(nullable = false)
-    private Float basePrice;
+    private BigDecimal basePrice = BigDecimal.ZERO;
     @Column(nullable = false)
-    private Float actualPrice;
+    private BigDecimal actualPrice =  BigDecimal.ZERO;
     private int version;
 }

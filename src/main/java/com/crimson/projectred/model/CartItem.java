@@ -1,5 +1,6 @@
 package com.crimson.projectred.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tbcard_item")
+@Table(name = "tbcart_item")
 public class CartItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cartItem_seq")
@@ -18,7 +19,11 @@ public class CartItem extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
+    private int quantity;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "wishlistId")
     private Cart cart;
+
+
 }

@@ -1,5 +1,6 @@
 package com.crimson.projectred.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -18,10 +19,12 @@ import java.time.LocalDateTime;
 public abstract class BaseEntity {
 
     @CreatedDate
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(nullable = false, updatable = false)
     private LocalDateTime created;
 
     @LastModifiedDate
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(nullable = false)
     private LocalDateTime updated;
 

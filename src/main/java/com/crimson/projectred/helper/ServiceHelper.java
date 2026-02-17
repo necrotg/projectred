@@ -1,6 +1,10 @@
 package com.crimson.projectred.helper;
 
+import com.crimson.projectred.model.Cart;
+import com.crimson.projectred.model.CartItem;
+
 import java.util.Objects;
+
 
 public class ServiceHelper {
     public Long getValidId(String id){
@@ -21,4 +25,5 @@ public class ServiceHelper {
         }
         return true;
     }
+
 }

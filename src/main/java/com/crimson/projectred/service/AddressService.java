@@ -10,6 +10,7 @@ import com.crimson.projectred.repositoty.AddressRepository;
 import com.crimson.projectred.repositoty.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.List;
@@ -22,11 +23,10 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
     private final CustomerRepository customerRepository;
-
-    public Address createAddress(Address address, Long customerId) {
+    @Transactional
+    public void addAddress(Address address, Long customerId) {
         Customer customer = customerRepository.getReferenceById(customerId);
-        address.setCustomer(customer);
-        return addressRepository.save(address);
+        customer.getAddresses().add(address);
     }
 
     public Optional<Address> getAddressesByCustomerId(Long id) {
