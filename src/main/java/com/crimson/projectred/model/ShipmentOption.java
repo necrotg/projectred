@@ -13,7 +13,7 @@ public class ShipmentOption extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shipmentOptionId;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String companyName;
     @Column(nullable = false)
     private BigDecimal totalPrice;

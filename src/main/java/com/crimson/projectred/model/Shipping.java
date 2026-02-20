@@ -18,8 +18,8 @@ public class Shipping extends BaseEntity {
     private Address address;
     @ManyToOne(cascade = CascadeType.ALL)
     private Customer customer;
-    @OneToOne(mappedBy = "shipping")
+    @OneToOne
     private Order order;
-    @OneToOne(mappedBy = "shipping")
+    @OneToOne
     private ShipmentOption shipmentOption;
 }
