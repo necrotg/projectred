@@ -21,7 +21,7 @@ public class Address extends BaseEntity{
     private String street;
 
     @Column(nullable = false)
-    private String residenceNumber;
+    private int residenceNumber;
 
     private String complement;
 
@@ -31,13 +31,13 @@ public class Address extends BaseEntity{
     @Column(nullable = false)
     private String city;
 
-    @Column(nullable = false, length = 2) // Ex: "SP", "RJ"
+    @Column(nullable = false, length = 2)
     private String state;
 
-    @Column(nullable = false, length = 9) // Ex: "01234-567"
+    @Column(nullable = false, length = 9)
     private String zipCode;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Lazy evita carregar o cliente sem necessidade
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customerId")
     @ToString.Exclude
     @JsonIgnore

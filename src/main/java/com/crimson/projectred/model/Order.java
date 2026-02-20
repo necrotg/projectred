@@ -1,8 +1,11 @@
 package com.crimson.projectred.model;
 
+import ch.qos.logback.core.status.Status;
+import com.crimson.projectred.enums.types.OrderStatusTP;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -15,19 +18,33 @@ public class Order extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
     @SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
     private Long orderId;
-    @JoinColumn(nullable = false,name = "shipping_address_id")
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address shippingAddress;
-    @JoinColumn(nullable = false,name = "billing_address_id")
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address billingAddress;
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "order")
+    private Payment payment;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false,name = "customerId")
     private Customer customer;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "order")
     private List<OrderItem> orderItems;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
+    private Shipping shipping;
     @Column(nullable = false)
-    private Float baseTotalPrice;
+    private String status;
     @Column(nullable = false)
-    private Float actualTotalPrice;
+    private String state;
+    @Column(nullable = false)
+    private BigDecimal baseTotalPrice;
+    @Column(nullable = false)
+    private BigDecimal actualTotalPrice;
+
+    public void updateTotals() {
+        this.actualTotalPrice = orderItems.stream()
+                .map(item -> item.getProduct().getActualPrice()
+                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.baseTotalPrice = orderItems.stream()
+                .map(item -> item.getProduct().getBasePrice()
+                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

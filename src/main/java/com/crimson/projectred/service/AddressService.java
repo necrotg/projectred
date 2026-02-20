@@ -32,4 +32,7 @@ public class AddressService {
     public Optional<Address> getAddressesByCustomerId(Long id) {
         return addressRepository.findById(id);
     }
+    public Address getAddressById(Long id) {
+        return addressRepository.findById(id).orElseThrow(() -> new BusinessException(ExceptionMessage.ADDRESS_NOT_FOUND));
+    }
 }
