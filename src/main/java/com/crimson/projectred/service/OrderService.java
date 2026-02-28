@@ -14,22 +14,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
-    private OrderRepository orderRepository;
-    private CustomerRepository customerRepository;
-    private AddressService addressService;
-    private CustomerService customerService;
-    private CardService cardService;
-    private ShipmentOptionsService shipmentOptionService;
+    private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final AddressService addressService;
+    private final CustomerService customerService;
+    private final CardService cardService;
+    private final ShipmentOptionsService shipmentOptionService;
+    private final ProductsService productsService;
 
     @Transactional
-    public Order createOrder(@RequestBody OrderRequest orderRequest) {
-        Customer customer = customerService.getCustomerById(orderRequest.customerId());
+    public Order createOrder(OrderRequest orderRequest,Long customerId) {
+        Customer customer = customerService.getCustomerById(customerId);
         Address billingAddress = addressService.getAddressById(orderRequest.billingAddressId());
         Card card = cardService.findByCardId(orderRequest.cardId());
         Payment payment = new Payment();
@@ -42,14 +44,31 @@ public class OrderService {
         shipping.setAddress(shipmentAddress);
         shipping.setCustomer(customer);
         shipping.setShipmentOption(shipmentOption);
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        orderRequest.orderItems().forEach(orderItemFromRequest->{
+            OrderItem orderItem = new OrderItem();
+            orderItem.setQuantity(orderItemFromRequest.quantity());
+            Product product = productsService.getProductById(orderItemFromRequest.productId());
+            orderItem.setProduct(product);
+            orderItem.updateTotals();
+            orderItems.add(orderItem);
+        });
+
         Order order = new Order();
-        order.setOrderItems(orderRequest.orderItems());
+        order.setOrderItems(orderItems);
         order.setCustomer(customer);
         order.setShipping(shipping);
         order.setPayment(payment);
-        order.setState(OrderStateTP.ACTIVE.getValue());
-        order.setStatus(OrderStatusTP.CREATED.getValue());
-        order.updateTotals();
+        order.setState(OrderStateTP.ACTIVE);
+        order.setStatus(OrderStatusTP.CREATED);
+        order.updateTotals(shipping.getShipmentOption().getTotalPrice());
+
+        orderItems.forEach(orderItem -> {
+            orderItem.setOrder(order);
+        });
+        customer.getOrders().add(order);
+
         return order;
     }
 

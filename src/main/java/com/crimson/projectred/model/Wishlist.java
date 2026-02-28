@@ -20,6 +20,7 @@ public class Wishlist extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "customerId")
     @JsonIgnore
+    @ToString.Exclude
     private Customer customer;
     @OneToMany(mappedBy = "wishlist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishlistItem> wishlistItem;

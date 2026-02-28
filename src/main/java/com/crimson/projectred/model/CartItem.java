@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -19,11 +22,16 @@ public class CartItem extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
+    private BigDecimal itemTotalPrice;
     private int quantity;
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "wishlistId")
+    @ToString.Exclude
+    @JoinColumn(name = "cartId")
     private Cart cart;
 
+    public void updateTotals() {
+        this.itemTotalPrice = product.getActualPrice().multiply(BigDecimal.valueOf(quantity));
+    }
 
 }

@@ -1,8 +1,10 @@
 package com.crimson.projectred.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -20,10 +22,14 @@ public class OrderItem extends BaseEntity{
     private Product product;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false,name = "orderId")
+    @JsonIgnore
+    @ToString.Exclude
     private Order order;
     private int quantity;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false,name = "customerId")
-    private Customer customer;
+    private BigDecimal itemTotalPrice;
+
+    public void updateTotals() {
+        this.itemTotalPrice = product.getActualPrice().multiply(BigDecimal.valueOf(quantity));
+    }
 
 }

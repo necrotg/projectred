@@ -14,7 +14,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("--- SECURITY CONFIG LOADED ---");
+            System.out.println("--- SECURITY CONFIG LOADED ---");
             http.csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                     .httpBasic(AbstractHttpConfigurer::disable)

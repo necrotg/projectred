@@ -1,5 +1,7 @@
 package com.crimson.projectred.service;
 
+import com.crimson.projectred.constant.ExceptionMessage;
+import com.crimson.projectred.exception.cust.BusinessException;
 import lombok.RequiredArgsConstructor;
 import com.crimson.projectred.model.Product;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,10 @@ public class ProductsService {
 
     public List<Product> registerProduct(List<Product> products){
         return productsRepository.saveAll(products);
+    }
+
+    public Product getProductById(Long productId){
+        return productsRepository.findById(productId).orElseThrow(()-> new BusinessException(ExceptionMessage.PRODUCT_NOT_FOUND));
     }
 
 }

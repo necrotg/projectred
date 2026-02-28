@@ -1,14 +1,15 @@
 package com.crimson.projectred.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
 @Entity
 @Data
 @Table(name = "tbcard")
-
 public class Card extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_seq")
@@ -26,6 +27,8 @@ public class Card extends BaseEntity{
     private String cpf;
     @JoinColumn(name = "customerId")
     @ManyToOne
+    @JsonIgnore
+    @ToString.Exclude
     private Customer customer;
 
 }

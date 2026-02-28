@@ -27,6 +27,7 @@ public class AddressService {
     public void addAddress(Address address, Long customerId) {
         Customer customer = customerRepository.getReferenceById(customerId);
         customer.getAddresses().add(address);
+        address.setCustomer(customer);
     }
 
     public Optional<Address> getAddressesByCustomerId(Long id) {

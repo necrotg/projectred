@@ -1,9 +1,8 @@
 package com.crimson.projectred.service;
 
 import com.crimson.projectred.constant.ExceptionMessage;
-import com.crimson.projectred.dto.CartItemRequest;
+import com.crimson.projectred.dto.ItemRequest;
 import com.crimson.projectred.exception.cust.BusinessException;
-import com.crimson.projectred.helper.ServiceHelper;
 import com.crimson.projectred.model.Cart;
 import com.crimson.projectred.model.CartItem;
 import com.crimson.projectred.model.Customer;
@@ -15,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -28,7 +24,7 @@ public class CartService {
     private final ProductsRepository productsRepository;
 
     @Transactional
-    public void addToCart(Long customerId, CartItemRequest cartItemRequest) {
+    public void addToCart(Long customerId, ItemRequest cartItemRequest) {
         Cart cart = cartRepository.findCartByCustomer_CustomerId(customerId)
                 .orElseThrow(()->new BusinessException(ExceptionMessage.CUSTOMER_NOT_FOUND));
         Product product = productsRepository.findById(cartItemRequest.productId()).orElseThrow(()->new BusinessException(ExceptionMessage.PRODUCT_NOT_FOUND));
@@ -37,6 +33,7 @@ public class CartService {
         cartItem.setProduct(product);
         cartItem.setQuantity(quantity);
         cartItem.setCart(cart);
+        cartItem.updateTotals();
         cart.addItem(cartItem);
     }
     @Transactional

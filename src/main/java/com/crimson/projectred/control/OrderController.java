@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/customer/{customerId}/order")
 @RequiredArgsConstructor
 public class OrderController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest) {
-        Order order = orderService.createOrder(orderRequest);
+    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest orderRequest,@PathVariable Long customerId) {
+        Order order = orderService.createOrder(orderRequest,customerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
-    @GetMapping("/customer/{customerId}")
+    @GetMapping
     public ResponseEntity<List<Order>> getAllOrders(@PathVariable Long customerId) {
         List<Order> orders = orderService.getOrdersByCustomer(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(orders);

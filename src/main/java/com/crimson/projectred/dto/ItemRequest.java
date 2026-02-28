@@ -1,6 +1,6 @@
 package com.crimson.projectred.dto;
 
-public record CartItemRequest(
+public record ItemRequest(
         Long productId,
         Integer quantity
 ) {}
