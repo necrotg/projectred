@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XE
+    username: ${DB_USER}
+    password: ${DB_PASS}
+    driver-class-name: oracle.jdbc.OracleDriver
+    jpa:
+      database-platform: org.hibernate.dialect.OracleDialect
+      hibernate:
+        ddl-auto: update
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: order-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.crimson.projectred.dto.events"

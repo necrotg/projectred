@@ -28,6 +28,7 @@ public class OrderService {
     private final CardService cardService;
     private final ShipmentOptionsService shipmentOptionService;
     private final ProductsService productsService;
+    private final NotificationService notificationService;
 
     @Transactional
     public Order createOrder(OrderRequest orderRequest,Long customerId) {
@@ -68,6 +69,7 @@ public class OrderService {
             orderItem.setOrder(order);
         });
         customer.getOrders().add(order);
+        notificationService.sendConfirmationNotification(order);
 
         return order;
     }
