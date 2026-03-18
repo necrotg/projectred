@@ -6,7 +6,7 @@ import com.crimson.projectred.dto.events.NotificationStatusDTO;
 import com.crimson.projectred.enums.types.NotificationStatusTP;
 import com.crimson.projectred.exception.cust.BusinessException;
 import com.crimson.projectred.model.Order;
-import com.crimson.projectred.model.events.NotificationEvent;
+import com.crimson.projectred.model.NotificationEvent;
 import com.crimson.projectred.repositoty.NotificationEventRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

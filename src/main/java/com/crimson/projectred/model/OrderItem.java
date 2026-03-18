@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tborder_item")
+@EqualsAndHashCode(callSuper = true)
 public class OrderItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderItem_seq")

@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbpromotion")
+@EqualsAndHashCode(callSuper = true)
 public class Promotion extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

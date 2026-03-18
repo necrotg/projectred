@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbwishlist")
+@EqualsAndHashCode(callSuper = true)
 public class Wishlist extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wishlist_seq")

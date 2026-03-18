@@ -3,6 +3,7 @@ package com.crimson.projectred.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "tbcard")
+@EqualsAndHashCode(callSuper = true)
 public class Card extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "card_seq")

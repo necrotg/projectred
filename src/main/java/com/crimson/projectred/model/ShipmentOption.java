@@ -3,12 +3,14 @@ package com.crimson.projectred.model;
 import com.crimson.projectred.dto.OrderRequest;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 
 @Entity
 @Data
 @Table(name = "tbshipment_options")
+@EqualsAndHashCode(callSuper = true)
 public class ShipmentOption extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

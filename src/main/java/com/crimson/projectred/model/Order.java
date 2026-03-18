@@ -13,7 +13,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tborder")
+@Table(name = "tb_order")
+@EqualsAndHashCode(callSuper = true)
 public class Order extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
@@ -31,8 +32,10 @@ public class Order extends BaseEntity{
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Shipping shipping;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStatusTP status;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderStateTP state;
     @Column(nullable = false)
     private BigDecimal baseTotalPrice;

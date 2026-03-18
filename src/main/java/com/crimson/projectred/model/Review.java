@@ -7,8 +7,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "tbreview")
 public class Review extends BaseEntity{
     @Id

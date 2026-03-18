@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Data
+
 public class Address extends BaseEntity{
 
     @Id

@@ -11,7 +11,8 @@ import java.util.List;
 @Table(name = "tbcustomer")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer extends BaseEntity{
+public class
+Customer extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_seq")
     @SequenceGenerator(name = "customer_seq", sequenceName = "customer_SEQ", allocationSize = 1)

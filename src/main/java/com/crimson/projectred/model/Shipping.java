@@ -2,16 +2,14 @@ package com.crimson.projectred.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tbshipping_details")
+@EqualsAndHashCode(callSuper = true)
 public class Shipping extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
