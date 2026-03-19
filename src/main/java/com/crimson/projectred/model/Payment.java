@@ -14,11 +14,12 @@ public class Payment extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_seq")
     @SequenceGenerator(name = "payment_seq", sequenceName = "payment_seq", allocationSize = 1)
-    private Long PaymentID;
-    @OneToOne
+    private Long paymentId;
+    @ManyToOne
+    @JoinColumn(name = "addressId")
     private Address billingAddress;
     @JoinColumn(name = "cardId")
-    @OneToOne
+    @ManyToOne
     private Card card;
     @JoinColumn(name = "customerId")
     @ManyToOne

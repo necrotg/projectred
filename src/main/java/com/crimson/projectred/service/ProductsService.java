@@ -5,7 +5,7 @@ import com.crimson.projectred.exception.cust.BusinessException;
 import lombok.RequiredArgsConstructor;
 import com.crimson.projectred.model.Product;
 import org.springframework.stereotype.Service;
-import com.crimson.projectred.repositoty.ProductsRepository;
+import com.crimson.projectred.repository.ProductsRepository;
 
 import java.util.List;
 

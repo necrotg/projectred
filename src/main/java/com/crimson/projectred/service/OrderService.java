@@ -1,18 +1,14 @@
 package com.crimson.projectred.service;
 
-import com.crimson.projectred.constant.ExceptionMessage;
 import com.crimson.projectred.dto.OrderRequest;
 import com.crimson.projectred.enums.types.OrderStateTP;
 import com.crimson.projectred.enums.types.OrderStatusTP;
-import com.crimson.projectred.exception.cust.BusinessException;
 import com.crimson.projectred.model.*;
-import com.crimson.projectred.repositoty.AddressRepository;
-import com.crimson.projectred.repositoty.CustomerRepository;
-import com.crimson.projectred.repositoty.OrderRepository;
+import com.crimson.projectred.repository.CustomerRepository;
+import com.crimson.projectred.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +64,9 @@ public class OrderService {
         orderItems.forEach(orderItem -> {
             orderItem.setOrder(order);
         });
+
         customer.getOrders().add(order);
+        orderRepository.save(order);
         notificationService.sendConfirmationNotification(order);
 
         return order;

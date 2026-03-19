@@ -27,6 +27,6 @@ public class Shipping extends BaseEntity {
     @JsonIgnore
     @ToString.Exclude
     private Order order;
-    @OneToOne
+    @ManyToOne
     private ShipmentOption shipmentOption;
 }

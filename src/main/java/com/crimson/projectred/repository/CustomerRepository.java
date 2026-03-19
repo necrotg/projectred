@@ -1,4 +1,4 @@
-package com.crimson.projectred.repositoty;
+package com.crimson.projectred.repository;
 
 import com.crimson.projectred.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -7,7 +7,7 @@ import com.crimson.projectred.enums.types.NotificationStatusTP;
 import com.crimson.projectred.exception.cust.BusinessException;
 import com.crimson.projectred.model.Order;
 import com.crimson.projectred.model.NotificationEvent;
-import com.crimson.projectred.repositoty.NotificationEventRepository;
+import com.crimson.projectred.repository.NotificationEventRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -34,7 +34,7 @@ public class NotificationService {
         notificationEvent.setNotificationStatusTP(NotificationStatusTP.ACTIVE);
         notificationEvent.setNotificationTemplate(NotificationTemplate.ORDER_CONFIRMATION);
         notificationEvent.setRetries(0);
-
+        notificationEventRepository.save(notificationEvent);
         Map<String,Object> notificationData = new HashMap<>();
         notificationData.put("orderId", order.getOrderId());
         notificationData.put("orderTotal", order.getActualTotalPrice());

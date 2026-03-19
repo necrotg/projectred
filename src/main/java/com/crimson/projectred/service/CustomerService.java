@@ -3,19 +3,15 @@ package com.crimson.projectred.service;
 import com.crimson.projectred.constant.ExceptionMessage;
 import com.crimson.projectred.constant.ResponseMessage;
 import com.crimson.projectred.exception.cust.BusinessException;
-import com.crimson.projectred.model.Cart;
-import com.crimson.projectred.model.Wishlist;
 import lombok.RequiredArgsConstructor;
 import com.crimson.projectred.model.Customer;
 import com.crimson.projectred.model.StandardResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.crimson.projectred.repositoty.CustomerRepository;
+import com.crimson.projectred.repository.CustomerRepository;
 
 import java.util.Date;
-import java.util.Objects;
-import java.util.Optional;
 
 
 @Service

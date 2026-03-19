@@ -4,7 +4,7 @@ import com.crimson.projectred.constant.ExceptionMessage;
 import com.crimson.projectred.exception.cust.BusinessException;
 import com.crimson.projectred.model.Card;
 import com.crimson.projectred.model.Customer;
-import com.crimson.projectred.repositoty.CardRepository;
+import com.crimson.projectred.repository.CardRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

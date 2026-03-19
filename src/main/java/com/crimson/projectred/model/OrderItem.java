@@ -22,7 +22,7 @@ public class OrderItem extends BaseEntity{
     @JoinColumn(nullable = false,name = "productId")
     private Product product;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false,name = "orderId")
+    @JoinColumn(nullable = false, name = "orderId")
     @JsonIgnore
     @ToString.Exclude
     private Order order;

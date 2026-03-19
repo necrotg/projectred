@@ -27,7 +27,7 @@ public class Order extends BaseEntity{
     @JsonIgnore
     @ToString.Exclude
     private Customer customer;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "order")
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "order")
     private List<OrderItem> orderItems;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "order")
     private Shipping shipping;

@@ -3,7 +3,7 @@ package com.crimson.projectred.service;
 import com.crimson.projectred.constant.ExceptionMessage;
 import com.crimson.projectred.exception.cust.BusinessException;
 import com.crimson.projectred.model.ShipmentOption;
-import com.crimson.projectred.repositoty.ShipmentOptionsRepository;
+import com.crimson.projectred.repository.ShipmentOptionsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
