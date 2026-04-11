@@ -6,6 +6,7 @@ import com.crimson.projectred.model.Customer;
 import com.crimson.projectred.model.Product;
 import com.crimson.projectred.service.AddressService;
 import com.crimson.projectred.service.ProductsService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.CREATED).body(address);
     }
     @GetMapping
-    public ResponseEntity<Optional<Address>> getAddressesByCustomerId(@PathVariable Long customerId){
-        Optional<Address> addresses = addressService.getAddressesByCustomerId(customerId);
+    public ResponseEntity<List<Address>> getAddressesByCustomerId(@PathVariable @Valid Long customerId){
+        List<Address> addresses = addressService.getAddressesByCustomerId(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(addresses);
     }
 }

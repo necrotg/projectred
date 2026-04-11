@@ -8,11 +8,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tborder_item")
-@EqualsAndHashCode(callSuper = true)
 public class OrderItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orderItem_seq")

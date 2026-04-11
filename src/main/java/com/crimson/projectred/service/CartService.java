@@ -1,8 +1,9 @@
 package com.crimson.projectred.service;
 
 import com.crimson.projectred.constant.ExceptionMessage;
-import com.crimson.projectred.dto.ItemRequest;
+import com.crimson.projectred.dto.ItemRequestDTO;
 import com.crimson.projectred.exception.cust.BusinessException;
+import com.crimson.projectred.exception.cust.NotFoundException;
 import com.crimson.projectred.model.Cart;
 import com.crimson.projectred.model.CartItem;
 import com.crimson.projectred.model.Customer;
@@ -24,11 +25,11 @@ public class CartService {
     private final ProductsRepository productsRepository;
 
     @Transactional
-    public void addToCart(Long customerId, ItemRequest cartItemRequest) {
+    public void addToCart(Long customerId, ItemRequestDTO cartItemRequestDTO) {
         Cart cart = cartRepository.findCartByCustomer_CustomerId(customerId)
                 .orElseThrow(()->new BusinessException(ExceptionMessage.CUSTOMER_NOT_FOUND));
-        Product product = productsRepository.findById(cartItemRequest.productId()).orElseThrow(()->new BusinessException(ExceptionMessage.PRODUCT_NOT_FOUND));
-        int quantity = cartItemRequest.quantity();
+        Product product = productsRepository.findById(cartItemRequestDTO.productId()).orElseThrow(()->new NotFoundException(ExceptionMessage.PRODUCT_NOT_FOUND));
+        int quantity = cartItemRequestDTO.quantity();
         CartItem cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setQuantity(quantity);
@@ -39,7 +40,7 @@ public class CartService {
     @Transactional
     public void removeFromCart(Long customerId, Long cartItemId) {
         Customer customer = customerService.getCustomerById(customerId);
-        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(()-> new BusinessException(ExceptionMessage.CART_ITEM_NOT_FOUND));
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(()-> new NotFoundException(ExceptionMessage.CART_ITEM_NOT_FOUND));
         customer.getCart().removeItem(cartItem);
     }
     public Cart getCartByCustomerId(Long customerId) {

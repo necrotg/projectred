@@ -1,8 +1,10 @@
 package com.crimson.projectred.control;
 
+import com.crimson.projectred.dto.CustomerDTO;
 import com.crimson.projectred.exception.handler.ResourceExceptionHandler;
 import com.crimson.projectred.model.Cart;
 import com.crimson.projectred.model.Wishlist;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import com.crimson.projectred.model.Customer;
 import com.crimson.projectred.model.StandardResponse;
@@ -21,10 +23,8 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
-        customer.setCart(new Cart());
-        customer.setWishlist(new Wishlist());
-        Customer savedCustomer = customerService.createCustomer(customer);
+    public ResponseEntity<Customer> createCustomer(@Valid @RequestBody CustomerDTO customerRequest){
+        Customer savedCustomer = customerService.createCustomer(customerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
     }
     @GetMapping("/{email}")

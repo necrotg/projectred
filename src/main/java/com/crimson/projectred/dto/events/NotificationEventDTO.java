@@ -1,5 +1,9 @@
 package com.crimson.projectred.dto.events;
 
-public record NotificationEventDTO(Long notificationId, String email, String phoneNumber,
-                                   java.util.Map<String, Object> notificationData, String template) {
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Map;
+
+public record NotificationEventDTO(@NotNull Long notificationId, @NotNull String email, @NotNull String phoneNumber,
+                                   @NotNull Map<String, Object> notificationData,@NotNull String template) {
 }

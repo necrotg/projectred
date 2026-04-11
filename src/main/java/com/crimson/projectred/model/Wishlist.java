@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbwishlist")
-@EqualsAndHashCode(callSuper = true)
 public class Wishlist extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wishlist_seq")

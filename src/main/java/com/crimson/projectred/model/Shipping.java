@@ -5,15 +5,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "tbshipping_details")
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class Shipping extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String shippingTrackingLink;
     private String shippingStatus;
     private int daysForArrival;
@@ -29,4 +28,10 @@ public class Shipping extends BaseEntity {
     private Order order;
     @ManyToOne
     private ShipmentOption shipmentOption;
+
+    public Shipping(Address shipmentAddress, Customer customer, ShipmentOption shipmentOption) {
+        this.address = shipmentAddress;
+        this.customer = customer;
+        this.shipmentOption = shipmentOption;
+    }
 }

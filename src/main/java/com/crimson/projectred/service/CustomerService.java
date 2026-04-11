@@ -2,7 +2,13 @@ package com.crimson.projectred.service;
 
 import com.crimson.projectred.constant.ExceptionMessage;
 import com.crimson.projectred.constant.ResponseMessage;
+import com.crimson.projectred.dto.CustomerDTO;
 import com.crimson.projectred.exception.cust.BusinessException;
+import com.crimson.projectred.exception.cust.NotFoundException;
+import com.crimson.projectred.factory.CustomerFactory;
+import com.crimson.projectred.mappers.CustomerMapper;
+import com.crimson.projectred.model.Cart;
+import com.crimson.projectred.model.Wishlist;
 import lombok.RequiredArgsConstructor;
 import com.crimson.projectred.model.Customer;
 import com.crimson.projectred.model.StandardResponse;
@@ -20,15 +26,16 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public Customer createCustomer(Customer customer){
-        if(customerRepository.findByEmailIgnoreCase(customer.getEmail()).isPresent()){
+    public Customer createCustomer(CustomerDTO customerDTO){
+        if(customerRepository.findByEmailIgnoreCase(customerDTO.email()).isPresent()){
             throw new BusinessException(ExceptionMessage.EMAIL_EXISTS_MESSAGE);
         }
+        Customer customer = CustomerFactory.createCustomer(customerDTO);
         return customerRepository.save(customer);
     }
     public Customer getCustomerByEmail(String customer){
         return customerRepository.findByEmailIgnoreCase(customer)
-                .orElseThrow(()-> new BusinessException(ExceptionMessage.CUSTOMER_NOT_FOUND));
+                .orElseThrow(()-> new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND));
     }
     public Customer getCustomerById(Long customerId){
         return customerRepository.findById(customerId)
@@ -36,7 +43,7 @@ public class CustomerService {
     }
     public ResponseEntity<StandardResponse> deleteCustomerById(Long id){
         if(!customerRepository.existsById(id)){
-            throw new BusinessException(ExceptionMessage.CUSTOMER_NOT_FOUND);
+            throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND);
         }
         customerRepository.deleteById(id);
         StandardResponse response = new StandardResponse(new Date().getTime(), HttpStatus.OK.value(), ResponseMessage.CUSTOMER_DELETED);

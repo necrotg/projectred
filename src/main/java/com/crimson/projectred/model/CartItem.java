@@ -7,11 +7,11 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbcart_item")
-@EqualsAndHashCode(callSuper = true)
 public class CartItem extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cartItem_seq")

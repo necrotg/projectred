@@ -4,6 +4,6 @@ COPY . .
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine
-WORKDIR /app
-COPY --from=build /build/target/*.jar app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+WORKDIR /build
+COPY --from=build /build/target/*.jar ordering.jar
+ENTRYPOINT ["java", "-jar", "ordering.jar"]

@@ -1,6 +1,8 @@
 package com.crimson.projectred.control;
 
+import com.crimson.projectred.dto.ProductRequestDTO;
 import com.crimson.projectred.exception.handler.ResourceExceptionHandler;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import com.crimson.projectred.model.Product;
 import org.springframework.http.HttpStatus;
@@ -19,8 +21,8 @@ public class CatalogController {
     private final ProductsService productsService;
 
     @PostMapping
-    public ResponseEntity<List<Product>> registerProduct(@RequestBody List<Product> products){
-        List<Product> savedProduct = productsService.registerProduct(products);
+    public ResponseEntity<List<Product>> registerProduct(@RequestBody @Valid List<ProductRequestDTO> productsDTO){
+        List<Product> savedProduct = productsService.registerProducts(productsDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
     }
     @GetMapping

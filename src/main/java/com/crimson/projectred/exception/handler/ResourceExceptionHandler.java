@@ -2,6 +2,8 @@ package com.crimson.projectred.exception.handler;
 
 import com.crimson.projectred.constant.ExceptionMessage;
 import com.crimson.projectred.exception.cust.BusinessException;
+import com.crimson.projectred.exception.cust.InvalidInputException;
+import com.crimson.projectred.exception.cust.NotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import com.crimson.projectred.model.APIErrorResponse;
 import com.crimson.projectred.model.StandardErrorResponse;
@@ -19,31 +21,27 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<StandardErrorResponse> handleException(BusinessException exception, HttpServletRequest request){
-
-        String exceptionMessage = exception.getMessage();
-
-        return switch (exceptionMessage) {
-            case ExceptionMessage.EMAIL_EXISTS_MESSAGE -> ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new APIErrorResponse(new Date().getTime(), HttpStatus.NOT_FOUND.value(), ExceptionMessage.EMAIL_EXISTS_MESSAGE, exception.getMessage(), request.getPathTranslated()));
-            case ExceptionMessage.CUSTOMER_NOT_FOUND -> ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(new APIErrorResponse(new Date().getTime(), HttpStatus.NOT_FOUND.value(), ExceptionMessage.CUSTOMER_NOT_FOUND, exception.getMessage(), request.getPathInfo()));
-            default -> ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new APIErrorResponse(new Date().getTime(), HttpStatus.INTERNAL_SERVER_ERROR.value(), ExceptionMessage.INTERNAL_SERVER_ERROR, exception.getMessage(), request.getPathInfo()));
-        };
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new APIErrorResponse(new Date().getTime(), HttpStatus.INTERNAL_SERVER_ERROR.value(), ExceptionMessage.INTERNAL_SERVER_ERROR, exception.getMessage(), request.getPathInfo()));
+    }
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<StandardErrorResponse> handleException(NotFoundException exception, HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new APIErrorResponse(new Date().getTime(), HttpStatus.NOT_FOUND.value(), exception.toString(), exception.getMessage(), request.getPathInfo()));
+    }
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<StandardErrorResponse> handleException(InvalidInputException exception, HttpServletRequest request){
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new APIErrorResponse(new Date().getTime(), HttpStatus.BAD_REQUEST.value(), exception.toString(), exception.getMessage(), request.getPathInfo()));
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardErrorResponse> handleException(Exception exception, HttpServletRequest request){
-
-        String exceptionMessage = exception.getMessage();
-
-        return switch (exceptionMessage) {
-            default -> ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new APIErrorResponse(new Date().getTime(), HttpStatus.INTERNAL_SERVER_ERROR.value(), ExceptionMessage.INTERNAL_SERVER_ERROR, exception.getMessage(), request.getPathInfo()));
-        };
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new APIErrorResponse(new Date().getTime(), HttpStatus.INTERNAL_SERVER_ERROR.value(), ExceptionMessage.INTERNAL_SERVER_ERROR, exception.getMessage(), request.getPathInfo()));
     }
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<String> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
@@ -51,7 +49,6 @@ public class ResourceExceptionHandler {
         String type = Objects.requireNonNull(ex.getRequiredType()).getSimpleName();
         Object value = ex.getValue();
         String message = String.format("O parâmetro '%s' deve ser do tipo '%s'. Valor recebido: '%s'", name, type, value);
-
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 

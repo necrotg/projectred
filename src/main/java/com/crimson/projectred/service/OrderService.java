@@ -1,11 +1,13 @@
 package com.crimson.projectred.service;
 
-import com.crimson.projectred.dto.OrderRequest;
-import com.crimson.projectred.enums.types.OrderStateTP;
-import com.crimson.projectred.enums.types.OrderStatusTP;
+import com.crimson.projectred.constant.ExceptionMessage;
+import com.crimson.projectred.dto.OrderRequestDTO;
+import com.crimson.projectred.exception.cust.InvalidInputException;
+import com.crimson.projectred.factory.OrderFactory;
+import com.crimson.projectred.mappers.OrderItemsMapper;
 import com.crimson.projectred.model.*;
-import com.crimson.projectred.repository.CustomerRepository;
 import com.crimson.projectred.repository.OrderRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,62 +19,51 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
+    private final OrderItemsMapper orderItemsMapper;
     private final OrderRepository orderRepository;
-    private final CustomerRepository customerRepository;
     private final AddressService addressService;
     private final CustomerService customerService;
     private final CardService cardService;
     private final ShipmentOptionsService shipmentOptionService;
-    private final ProductsService productsService;
     private final NotificationService notificationService;
+    private Customer customer;
+    private Address billingAddress;
+    private Card card;
+    private Address shipmentAddress;
+    private ShipmentOption shipmentOption;
 
     @Transactional
-    public Order createOrder(OrderRequest orderRequest,Long customerId) {
-        Customer customer = customerService.getCustomerById(customerId);
-        Address billingAddress = addressService.getAddressById(orderRequest.billingAddressId());
-        Card card = cardService.findByCardId(orderRequest.cardId());
-        Payment payment = new Payment();
-        payment.setCard(card);
-        payment.setBillingAddress(billingAddress);
-        payment.setCustomer(customer);
-        Address shipmentAddress = addressService.getAddressById(orderRequest.shipmentAddressId());
-        ShipmentOption shipmentOption = shipmentOptionService.getShipmentOptionById(orderRequest.shipmentOptionId());
-        Shipping shipping = new Shipping();
-        shipping.setAddress(shipmentAddress);
-        shipping.setCustomer(customer);
-        shipping.setShipmentOption(shipmentOption);
+    public Order createOrder(OrderRequestDTO orderRequestDTO) {
         List<OrderItem> orderItems = new ArrayList<>();
-
-        orderRequest.orderItems().forEach(orderItemFromRequest->{
-            OrderItem orderItem = new OrderItem();
-            orderItem.setQuantity(orderItemFromRequest.quantity());
-            Product product = productsService.getProductById(orderItemFromRequest.productId());
-            orderItem.setProduct(product);
-            orderItem.updateTotals();
-            orderItems.add(orderItem);
-        });
-
-        Order order = new Order();
-        order.setOrderItems(orderItems);
-        order.setCustomer(customer);
-        order.setShipping(shipping);
-        order.setPayment(payment);
-        order.setState(OrderStateTP.ACTIVE);
-        order.setStatus(OrderStatusTP.CREATED);
-        order.updateTotals(shipping.getShipmentOption().getTotalPrice());
-
-        orderItems.forEach(orderItem -> {
-            orderItem.setOrder(order);
-        });
-
-        customer.getOrders().add(order);
+        orderItemsMapper.mapOrderItems(orderRequestDTO, orderItems);
+        Order order = OrderFactory.createOrder(customer,billingAddress,shipmentAddress,shipmentOption,card,orderItems);
         orderRepository.save(order);
-        notificationService.sendConfirmationNotification(order);
-
+        sendOrderConfirmationNotification(order);
         return order;
+    }
+
+    public void sendOrderConfirmationNotification(Order order){
+        notificationService.sendConfirmationNotification(order);
     }
 
     public List<Order> getOrdersByCustomer(Long customerId) {
        return orderRepository.getOrdersByCustomer_CustomerId(customerId);
+    }
+
+    public void validateInput(@Valid OrderRequestDTO orderRequestDTO, Long customerId) {
+        this.customer = customerService.getCustomerById(customerId);
+        this.billingAddress = addressService.getAddressById(orderRequestDTO.billingAddressId());
+        if(!customer.equals(billingAddress.getCustomer())){
+            throw new InvalidInputException(ExceptionMessage.INVALID_ADDRESS);
+        }
+        this.shipmentAddress = addressService.getAddressById(orderRequestDTO.shipmentAddressId());
+        if(!customer.equals(shipmentAddress.getCustomer())){
+            throw new InvalidInputException(ExceptionMessage.INVALID_ADDRESS);
+        }
+        this.card = cardService.findByCardId(orderRequestDTO.cardId());
+        if(!customer.equals(card.getCustomer())){
+            throw new InvalidInputException(ExceptionMessage.INVALID_CARD);
+        }
+        this.shipmentOption = shipmentOptionService.getShipmentOptionById(orderRequestDTO.shipmentOptionId());
     }
 }

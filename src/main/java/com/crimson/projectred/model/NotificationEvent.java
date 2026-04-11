@@ -3,14 +3,12 @@ package com.crimson.projectred.model;
 import com.crimson.projectred.enums.types.NotificationStatusTP;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "tbnotification_events")
-@EqualsAndHashCode(callSuper = true)
 public class NotificationEvent extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notif_seq")
@@ -27,6 +25,7 @@ public class NotificationEvent extends BaseEntity {
     @ToString.Exclude
     private Order order;
     private String notificationTemplate;
+    private String eventData;
     private int retries;
     @Enumerated(EnumType.STRING)
     private NotificationStatusTP notificationStatusTP;

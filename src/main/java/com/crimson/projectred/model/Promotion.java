@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbpromotion")
-@EqualsAndHashCode(callSuper = true)
 public class Promotion extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

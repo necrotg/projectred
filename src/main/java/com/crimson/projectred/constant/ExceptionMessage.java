@@ -10,4 +10,6 @@ public class ExceptionMessage {
     public final static String PRODUCT_NOT_FOUND = "Product not valid";
     public final static String CARD_NOT_FOUND = "Card not found";
     public final static String SHIPMENT_OPTION_NOT_FOUND = "Shipment Option not found";
+    public static final String INVALID_ADDRESS = "Customer does not have the given address";
+    public static final String INVALID_CARD = "Customer does not have the given card" ;
 }

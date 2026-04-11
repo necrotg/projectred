@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "tbcustomer")
 @AllArgsConstructor
 @NoArgsConstructor
-public class
-Customer extends BaseEntity{
+public class Customer extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_seq")
     @SequenceGenerator(name = "customer_seq", sequenceName = "customer_SEQ", allocationSize = 1)
@@ -30,17 +30,17 @@ Customer extends BaseEntity{
     @Column(nullable = false)
     private String userName;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Card> cards = new ArrayList<>();
+    private List<Card> cards;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> addresses = new ArrayList<>();
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> addresses;
+    @OneToOne(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Wishlist wishlist;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders;
 
     @Override
     public final boolean equals(Object o) {
@@ -58,14 +58,14 @@ Customer extends BaseEntity{
     public void setCart(Cart cart) {
         this.cart = cart;
         if (cart != null) {
-            cart.setCustomer(this); // This links the "Owner" side!
+            cart.setCustomer(this);
         }
     }
 
     public void setWishlist(Wishlist wishlist) {
         this.wishlist = wishlist;
         if (wishlist != null) {
-            wishlist.setCustomer(this); // This links the "Owner" side!
+            wishlist.setCustomer(this);
         }
     }
 }

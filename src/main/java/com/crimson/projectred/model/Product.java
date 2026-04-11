@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbproducts")
-@EqualsAndHashCode(callSuper = true)
 public class Product extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
@@ -34,4 +34,7 @@ public class Product extends BaseEntity{
     @Column(nullable = false)
     private BigDecimal actualPrice =  BigDecimal.ZERO;
     private int version;
+
+
+
 }

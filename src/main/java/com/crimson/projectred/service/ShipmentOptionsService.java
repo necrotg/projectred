@@ -2,6 +2,7 @@ package com.crimson.projectred.service;
 
 import com.crimson.projectred.constant.ExceptionMessage;
 import com.crimson.projectred.exception.cust.BusinessException;
+import com.crimson.projectred.exception.cust.NotFoundException;
 import com.crimson.projectred.model.ShipmentOption;
 import com.crimson.projectred.repository.ShipmentOptionsRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,6 @@ public class ShipmentOptionsService {
     }
 
     public ShipmentOption getShipmentOptionById(Long id){
-        return shipmentOptionsRepository.findById(id).orElseThrow(()->new BusinessException(ExceptionMessage.SHIPMENT_OPTION_NOT_FOUND));
+        return shipmentOptionsRepository.findById(id).orElseThrow(()->new NotFoundException(ExceptionMessage.SHIPMENT_OPTION_NOT_FOUND));
     }
 }
