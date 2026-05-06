@@ -1,2 +1,3 @@
 # Ignorar o arquivo de configuração real
 src/main/resources/application.properties
+target/
