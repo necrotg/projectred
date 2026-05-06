@@ -12,10 +12,11 @@ public class CustomerFactory {
     public static Customer createCustomer(CustomerDTO customerDTO){
         Customer customer = new Customer();
         customer.setFirstName(customerDTO.firstName());
-        customer.setSurName(customer.getSurName());
+        customer.setSurName(customerDTO.surName());
         customer.setPhoneNumber(customerDTO.phoneNumber());
         customer.setEmail(customerDTO.email());
         customer.setCpf(customerDTO.cpf());
+        customer.setUserName(customerDTO.userName());
         customer.setCart(new Cart());
         customer.setWishlist(new Wishlist());
         customer.setAddresses(new ArrayList<>());

@@ -18,8 +18,8 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping
-    public ResponseEntity<StandardResponse> addToCart(@PathVariable Long customerId, @RequestBody @Valid ItemRequestDTO cartItemRequestDTO) {
-        cartService.addToCart(customerId, cartItemRequestDTO);
+    public ResponseEntity<StandardResponse> addToCart(@RequestHeader("correlation-id") String correlationId, @PathVariable Long customerId, @RequestBody @Valid ItemRequestDTO cartItemRequestDTO) {
+        cartService.addToCart(customerId, cartItemRequestDTO,correlationId);
         return ResponseEntity.status(HttpStatus.CREATED).body(new StandardResponse(HttpStatus.CREATED.value(), ResponseMessage.PRODUCT_ADDED));
     }
     @GetMapping
